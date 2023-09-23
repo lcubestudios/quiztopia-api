@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 //header('Content-Type: application/json;charset=utf-8');
-header('Access-Control-Allow-Methods:  GET');
+header('Access-Control-Allow-Methods:  POST');
 require_once 'vendor/autoload.php';
 
 // Load environment variables from .env file
@@ -18,7 +18,7 @@ $dbPassword = $_ENV['DB_PASSWORD'];
 
 $method = $_SERVER['REQUEST_METHOD'];
 // Check if the form has been submitted
-if ($method == "GET") {
+if ($method == "POST") {
     try {
         // Create a PDO instance for the database connection
         $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
