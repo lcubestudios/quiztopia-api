@@ -1,5 +1,6 @@
 {
   "require": {
-      "vlucas/phpdotenv": "^5.5.0"
+      "vlucas/phpdotenv": "^5.5.0",
+      "kornrunner/keccak": "^1.1.0"
   }
 }
