@@ -36,6 +36,8 @@ if ($method == "POST") {
         $statement = $pdo->prepare($sql);
         $statement->bindParam(':privy_id', $privy_id); // Corrected binding parameter
         $statement->execute();
+        // Print the statement using var_dump
+        var_dump($statement);
 
         $count = $statement->fetchColumn();
 
