@@ -38,17 +38,18 @@ if ($method == "POST") {
         $concatenatedAnswersSalt = implode("", $answers) . $salt;
 
         // Hash the concatenated string using Keccak-256
-        $keccak = new Keccak(Keccak::BIT_256);
-        $correct_hash_answers	 = $keccak->hash($concatenatedAnswersSalt);
+        $correct_hash_answers = hash('sha3-256', $concatenatedAnswersSalt);
 
-        // Insert the hash answer into the database
-        $stmt = $pdo->prepare("INSERT INTO quiztopia_quiz (correct_hash_answers	) VALUES (:correct_hash_answers	)");
-        $stmt->bindParam(':correct_hash_answers	', $correct_hash_answers	, PDO::PARAM_STR);
+        // Insert the hash and salt into the database
+        $stmt = $pdo->prepare("INSERT INTO quiztopia_quiz (correct_hash_answers, salt_used) VALUES (:correct_hash_answers, :salt_used)");
+        $stmt->bindParam(':correct_hash_answers', $correct_hash_answers, PDO::PARAM_STR);
+        $stmt->bindParam(':salt_used', $salt, PDO::PARAM_STR);
         $stmt->execute();
 
-        // Return the hash as JSON
+        // Return the hash and salt as JSON
         $response = [
-            'answer_hash' => $correct_hash_answers	
+            'quiz_hash' => $correct_hash_answers,
+            'salt_used' => $salt
         ];
         echo json_encode($response);
     } catch (PDOException $e) {
